@@ -1,0 +1,35 @@
+---
+# Add global settings here
+
+# aws-cloudformation role settings
+Stack.Name: cloudformation-resources
+Stack.Description: cloudformation resources
+
+Stack.Tags:
+  org:business:owner: Casecommons
+  org:business:product: CloudFormation Resources
+  org:business:severity: High
+  org:tech:environment: "{{ env }}"
+  org:tech:contact: christian@casecommons.org
+
+# By default the aws-cloudformation role expects your stack template
+# to be defined in the templates/stack.yml.j2 file
+#
+# Alternatively you can use a template published in the aws-cloudformation role
+# See https://github.com/docker-production-aws/aws-cloudformation
+Stack.Template: templates/cfn.yml.j2
+
+# CloudFormation settings
+# This sets a policy that disables updates to existing resources
+# This requires you to explicitly set the cf_disable_stack_policy flag to true when running the playbook
+Stack.Policy:
+  Statement:
+  - Effect: "Deny"
+    Action: "Update:*"
+    Principal: "*"
+    Resource: "*"
+
+# Define stack inputs as required
+Stack.Inputs.MyStackInput: "{{ 1000 }}"
+
+Sts.Region: us-east-1
